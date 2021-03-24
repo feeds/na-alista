@@ -6,18 +6,24 @@ import utils.conf as conf
 
 device = conf.device
 
+def soft_thresh_plain(a,theta):
+    arg = torch.atan2(a[:,:,1],a[:,:,0])
+    abs = torch.linalg.norm(a,dim=-1)
+    r = torch.max(torch.zeros_like(abs),abs-theta * torch.ones_like(abs))
+    real = r * torch.cos(arg)
+    imag = r * torch.sin(arg)
+    ff = torch.stack([real,imag])
+    return ff.permute(1,2,0)
 
 def soft_threshold(x, theta, p):
-    shape = x.shape
-    x = x.reshape(x.shape[0], -1)
     if p == 0:
-        return (torch.sign(x) * torch.relu(torch.abs(x) - theta)).reshape(shape)
+        return soft_thresh_plain(x,theta)
 
-    abs_ = torch.abs(x)
+    abs_ = torch.linalg.norm(x,dim=-1)
     topk, _ = torch.topk(abs_, int(p), dim=1)
     topk, _ = topk.min(dim=1)
-    index = (abs_ > topk.unsqueeze(1)).float()
-    return (index * x + (1 - index) * torch.sign(x) * torch.relu(torch.abs(x) - theta)).reshape(shape)
+    index = (abs_ > topk.unsqueeze(1)).float().unsqueeze(2)
+    return index * x + (1 - index) * soft_thresh_plain(x,theta)
 
 
 class ISTA(nn.Module):
