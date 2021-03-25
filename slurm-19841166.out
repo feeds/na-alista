@@ -1,0 +1,42 @@
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+nvcc: NVIDIA (R) Cuda compiler driver
+Copyright (c) 2005-2019 NVIDIA Corporation
+Built on Fri_Feb__8_19:08:17_PST_2019
+Cuda compilation tools, release 10.1, V10.1.105
+Modules loaded
+Python 3.7.1
+
+/beegfs/home/users/f/freya.behrens.1/.pyenv/versions/3.7.1/lib/python37.zip
+/beegfs/home/users/f/freya.behrens.1/.pyenv/versions/3.7.1/lib/python3.7
+/beegfs/home/users/f/freya.behrens.1/.pyenv/versions/3.7.1/lib/python3.7/lib-dynload
+/home/users/f/freya.behrens.1/virtualenv2/lib/python3.7/site-packages
+
+/beegfs/home/cluster/python/3.7.1/lib/python37.zip
+/beegfs/home/cluster/python/3.7.1/lib/python3.7
+/beegfs/home/cluster/python/3.7.1/lib/python3.7/lib-dynload
+/home/users/f/freya.behrens.1/.local/lib/python3.7/site-packages
+/beegfs/home/cluster/python/3.7.1/lib/python3.7/site-packages
+/beegfs/home/users/f/freya.behrens.1/.pyenv/versions/3.7.1/lib/python37.zip
+/beegfs/home/users/f/freya.behrens.1/.pyenv/versions/3.7.1/lib/python3.7
+/beegfs/home/users/f/freya.behrens.1/.pyenv/versions/3.7.1/lib/python3.7/lib-dynload
+/home/users/f/freya.behrens.1/virtualenv2/lib/python3.7/site-packages
+True
+Traceback (most recent call last):
+  File "/home/users/f/freya.behrens.1/complex_fix/na-alista/run-comm2.py", line 82, in <module>
+    model_dir=model_dir)
+  File "/beegfs/home/users/f/freya.behrens.1/complex_fix/na-alista/utils/train_utils.py", line 133, in train_model_communication
+    train_loss, train_db = train_one_epoch_comm(model, train_loader, noise_fn, opt, transform=wavelet)
+  File "/beegfs/home/users/f/freya.behrens.1/complex_fix/na-alista/utils/train_utils.py", line 186, in train_one_epoch_comm
+    X_hat, gammas, thetas = model(y, info)
+  File "/home/users/f/freya.behrens.1/.local/lib/python3.7/site-packages/torch/nn/modules/module.py", line 550, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/beegfs/home/users/f/freya.behrens.1/complex_fix/na-alista/utils/algorithms_comm.py", line 340, in forward
+    x = soft_threshold(x -  self.gamma[i][0] * c, theta, self.p[i])
+  File "/beegfs/home/users/f/freya.behrens.1/complex_fix/na-alista/utils/algorithms_comm.py", line 26, in soft_threshold
+    return index * x + (1 - index) * soft_thresh_plain(x,theta)
+  File "/beegfs/home/users/f/freya.behrens.1/complex_fix/na-alista/utils/algorithms_comm.py", line 12, in soft_thresh_plain
+    r = torch.max(torch.zeros_like(abs),abs-theta * torch.ones_like(abs))
+RuntimeError: The size of tensor a (512) must match the size of tensor b (256) at non-singleton dimension 1
+Script run

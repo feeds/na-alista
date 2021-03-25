@@ -45,7 +45,7 @@ def FISTA(m, n, s, k, p, forward_op, backward_op, L_):
     return algo.FISTA(m, n, k, forward_op, backward_op, 1, 0.003)#it 300, m: 100,0.5, 0.002)
 
 
-for model_func in [ALISTA, FISTA, ISTA, AGLISTA]:
+for model_func in [ALISTA_AT]:
 
     for k in [1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24]: # number of iterations that the ISTA-style method is executed
 
