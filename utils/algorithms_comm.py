@@ -8,7 +8,7 @@ device = conf.device
 
 def soft_thresh_plain(a,theta):
     arg = torch.atan2(a[:,:,1],a[:,:,0])
-    abs = torch.linalg.norm(a,dim=-1)
+    abs = torch.norm(a,dim=-1)
     r = torch.max(torch.zeros_like(abs),abs-theta * torch.ones_like(abs))
     real = r * torch.cos(arg)
     imag = r * torch.sin(arg)
@@ -19,7 +19,7 @@ def soft_threshold(x, theta, p):
     if p == 0:
         return soft_thresh_plain(x,theta)
 
-    abs_ = torch.linalg.norm(x,dim=-1)
+    abs_ = torch.norm(x,dim=-1)
     topk, _ = torch.topk(abs_, int(p), dim=1)
     topk, _ = topk.min(dim=1)
     index = (abs_ > topk.unsqueeze(1)).float().unsqueeze(2)

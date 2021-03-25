@@ -1,0 +1,38 @@
+#!/bin/bash 
+
+##SBATCH -o alista.%j.%N.out   # Output-File
+##SBATCH -e alista.%j.%N.err #Error-File
+
+#SBATCH -J vn2 # Job Name
+#SBATCH --ntasks=2              # Anzahl Prozesse P (CPU-Cores) 
+#SBATCH --cpus-per-task=2       # Anzahl CPU-Cores pro Prozess P
+#SBATCH --gres=gpu:tesla:1      # 2 GPUs anfordern
+#SBATCH --mem=10G              # 5GiB resident memory pro node
+
+##Max Walltime vorgeben:
+#SBATCH --time=1-23:00:00 # Erwartete Laufzeit
+
+#Auf GPU-Knoten rechnen:
+#SBATCH --partition=gpu
+
+#Job-Status per Mail:
+#SBATCH --mail-type=ALL
+#SBATCH --mail-user=behrefr@gmail.com
+
+# benötigte SW / Bibliotheken laden (CUDA, etc.)
+
+source ~/virtualenv2/bin/activate
+module load nvidia/cuda/10.1
+nvcc --version
+echo "Modules loaded"
+python --version
+#pip list
+python -c "import sys; print('\n'.join(sys.path))"
+export PYTHONPATH=/beegfs/home/cluster/python/3.7.1/lib/python37.zip:/beegfs/home/cluster/python/3.7.1/lib/python3.7:/beegfs/home/cluster/python/3.7.1/lib/python3.7/lib-dynload:/home/users/f/freya.behrens.1/.local/lib/python3.7/site-packages:/beegfs/home/cluster/python/3.7.1/lib/python3.7/site-packages
+
+python -c "import sys; print('\n'.join(sys.path))"
+python -c "import torch; print(torch.cuda.is_available())"
+python -u /home/users/f/freya.behrens.1/complex_fix/na-alista/run-communication-na.py > db20-na.log
+echo "Script run"
+deactivate
+
