@@ -334,7 +334,7 @@ class ALISTA_AT(nn.Module):
             b = a - y
             c = self.backward_op(b)
 
-            theta = self.theta[i][0] * g(torch.abs(x))
+            theta = self.theta[i][0] * g(torch.norm(x,dim=-1))
             if len(theta.shape) >= 3:
                 theta = theta.reshape(x.shape[0], -1)
             x = soft_threshold(x -  self.gamma[i][0] * c, theta, self.p[i])
